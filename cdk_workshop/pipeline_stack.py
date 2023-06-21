@@ -2,6 +2,7 @@ from constructs import Construct
 from aws_cdk import (
     Stack, aws_codecommit as codecommit, pipelines
 )
+from cdk_workshop.pipeline_stage import WorkshopPipelineStage
 
 class WorkshopPipelineStack(Stack):
 
@@ -27,3 +28,7 @@ class WorkshopPipelineStack(Stack):
             ]
             )
         )
+
+        # create an instance of the workshop stack as stage and add to the pipeline
+        deploy = WorkshopPipelineStage(self, "Deploy")
+        deploy_stage = pipeline.add_stage(deploy)

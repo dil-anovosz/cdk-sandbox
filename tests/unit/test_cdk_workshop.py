@@ -1,6 +1,6 @@
 from aws_cdk import Stack, aws_lambda as _lambda, assertions
 
-from cdk_workshop.hitcounter import HitCounter
+from cdk.hitcounter import HitCounter
 import pytest
 
 

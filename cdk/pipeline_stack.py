@@ -1,9 +1,9 @@
 from constructs import Construct
 from aws_cdk import Stack, pipelines
-from cdk_workshop.pipeline_stage import WorkshopPipelineStage
+from cdk.pipeline_stage import CodePipelineStage
 
 
-class WorkshopPipelineStack(Stack):
+class CodePipelineStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
@@ -25,7 +25,7 @@ class WorkshopPipelineStack(Stack):
             ),
         )
 
-        deploy = WorkshopPipelineStage(self, "Deploy")
+        deploy = CodePipelineStage(self, "Deploy")
         deploy_stage = pipeline.add_stage(deploy)
 
         # Tests

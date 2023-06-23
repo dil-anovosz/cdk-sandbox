@@ -1,9 +1,9 @@
 from constructs import Construct
 from aws_cdk import Stage
-from .cdk_workshop_stack import CdkWorkshopStack
+from .helloworld_stack import HelloWorldStack
 
 
-class WorkshopPipelineStage(Stage):
+class CodePipelineStage(Stage):
     @property
     def hc_endpoint(self):
         return self._hc_endpoint
@@ -15,7 +15,7 @@ class WorkshopPipelineStage(Stage):
     def __init__(self, scope: Construct, id: str, **kwargs):
         super().__init__(scope, id, **kwargs)
 
-        service = CdkWorkshopStack(self, "WebService")
+        service = HelloWorldStack(self, "WebService")
 
         self._hc_endpoint = service.hc_endpoint
         self._hc_viewer_url = service.hc_viewer_url

@@ -15,7 +15,7 @@ from cdk_dynamo_table_view import TableViewer
 from .hitcounter import HitCounter
 
 
-class CdkWorkshopStack(Stack):
+class HelloWorldStack(Stack):
     @property
     def hc_endpoint(self):
         return self._hc_endpoint

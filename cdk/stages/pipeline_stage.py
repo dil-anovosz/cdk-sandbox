@@ -1,6 +1,6 @@
 from constructs import Construct
 from aws_cdk import Stage
-from .helloworld_stack import HelloWorldStack
+from cdk.stacks.helloworld_stack import HelloWorldStack
 
 
 class CodePipelineStage(Stage):

@@ -12,7 +12,7 @@ from aws_cdk import (
 )
 
 from cdk_dynamo_table_view import TableViewer
-from .hitcounter import HitCounter
+from cdk.assets.lambdas.hitcounter import HitCounter
 
 
 class HelloWorldStack(Stack):

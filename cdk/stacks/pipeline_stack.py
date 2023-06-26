@@ -66,7 +66,7 @@ class CodePipelineStack(Stack):
                 # "codepipeline-pipeline-manual-approval-needed",
                 "codepipeline-pipeline-manual-approval-succeeded",
             ],
-            source=pipeline,
+            source=pipeline.pipeline,
             targets=[topic],
         )
 

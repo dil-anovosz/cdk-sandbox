@@ -1,5 +1,5 @@
 from constructs import Construct
-from aws_cdk import Stack, pipelines
+from aws_cdk import Stack, pipelines, aws_sns, aws_sns_subscriptions
 from cdk.stages.pipeline_stage import CodePipelineStage
 
 
@@ -27,6 +27,12 @@ class CodePipelineStack(Stack):
 
         deploy = CodePipelineStage(self, "Deploy")
         deploy_stage = pipeline.add_stage(deploy)
+
+        # SNS notification
+        topic = aws_sns.Topic(
+            self, "Topic", display_name="Test subscription topic"
+        )
+        topic.add_subscription(aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com"))
 
         # Tests
         deploy_stage.add_post(

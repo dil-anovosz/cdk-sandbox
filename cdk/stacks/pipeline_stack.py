@@ -1,5 +1,11 @@
 from constructs import Construct
-from aws_cdk import Stack, pipelines, aws_sns, aws_sns_subscriptions, aws_codestarnotifications
+from aws_cdk import (
+    Stack,
+    pipelines,
+    aws_sns,
+    aws_sns_subscriptions,
+    aws_codestarnotifications,
+)
 from cdk.stages.pipeline_stage import CodePipelineStage
 
 
@@ -29,16 +35,37 @@ class CodePipelineStack(Stack):
         deploy_stage = pipeline.add_stage(deploy)
 
         # SNS notification
-        topic = aws_sns.Topic(
-            self, "Topic", display_name="Test subscription topic"
+        topic = aws_sns.Topic(self, "Topic", display_name="Test subscription topic")
+        topic.add_subscription(
+            aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
-        topic.add_subscription(aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com"))
 
         # Notification rule
         notification = aws_codestarnotifications.NotificationRule(
             self,
             "PipelineNotification",
-            targets=[topic]
+            events=[
+                "codepipeline-pipeline-action-execution-succeeded",
+                "codepipeline-pipeline-action-execution-failed",
+                "codepipeline-pipeline-action-execution-canceled",
+                "codepipeline-pipeline-action-execution-started",
+                "codepipeline-pipeline-stage-execution-started",
+                "codepipeline-pipeline-stage-execution-succeeded",
+                "codepipeline-pipeline-stage-execution-resumed",
+                "codepipeline-pipeline-stage-execution-canceled",
+                "codepipeline-pipeline-stage-execution-failed",
+                "codepipeline-pipeline-pipeline-execution-failed",
+                "codepipeline-pipeline-pipeline-execution-canceled",
+                "codepipeline-pipeline-pipeline-execution-started",
+                "codepipeline-pipeline-pipeline-execution-resumed",
+                "codepipeline-pipeline-pipeline-execution-succeeded",
+                "codepipeline-pipeline-pipeline-execution-superseded",
+                "codepipeline-pipeline-manual-approval-failed",
+                "codepipeline-pipeline-manual-approval-needed",
+                "codepipeline-pipeline-manual-approval-succeeded",
+            ],
+            soruce=pipeline,
+            targets=[topic],
         )
 
         # Tests

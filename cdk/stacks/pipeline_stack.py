@@ -1,5 +1,5 @@
 from constructs import Construct
-from aws_cdk import Stack, pipelines, aws_sns, aws_sns_subscriptions
+from aws_cdk import Stack, pipelines, aws_sns, aws_sns_subscriptions, aws_codestarnotifications
 from cdk.stages.pipeline_stage import CodePipelineStage
 
 
@@ -33,6 +33,13 @@ class CodePipelineStack(Stack):
             self, "Topic", display_name="Test subscription topic"
         )
         topic.add_subscription(aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com"))
+
+        # Notification rule
+        notification = aws_codestarnotifications.NotificationRule(
+            self,
+            "PipelineNotification",
+            targets=[topic]
+        )
 
         # Tests
         deploy_stage.add_post(

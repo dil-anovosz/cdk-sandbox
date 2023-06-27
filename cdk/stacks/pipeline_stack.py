@@ -39,7 +39,7 @@ class CodePipelineStack(Stack):
         # SNS notification
         topic = aws_sns.Topic(self, "Topic", display_name="Test subscription topic")
         topic.add_subscription(
-            aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
+            aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com", json=True)
         )
 
         # Notification rule

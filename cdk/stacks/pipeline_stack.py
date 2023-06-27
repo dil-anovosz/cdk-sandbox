@@ -41,6 +41,7 @@ class CodePipelineStack(Stack):
         topic.add_subscription(
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
+        topic.publish_message("test message!")
 
         # Notification rule
         notifier = aws_codestarnotifications.NotificationRule(
@@ -70,7 +71,7 @@ class CodePipelineStack(Stack):
         )
         notifier.add_target(topic)
 
-        # Tests
+        # Tests, test, test
         deploy_stage.add_post(
             pipelines.ShellStep(
                 "TestViewerEndpoint",

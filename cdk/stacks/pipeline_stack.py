@@ -20,7 +20,7 @@ class CodePipelineStack(Stack):
                 "Synth",
                 input=pipelines.CodePipelineSource.connection(
                     "dil-anovosz/cdk-sandbox",
-                    "notification",
+                    "main",
                     connection_arn="arn:aws:codestar-connections:us-west-2:681724587179:connection/893acab1-9f1b-4b7f-8146-fa8443fce0fc",
                 ),
                 commands=[

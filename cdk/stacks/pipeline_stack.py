@@ -70,7 +70,7 @@ class CodePipelineStack(Stack):
         )
         notifier.add_target(topic)
 
-        # Tests, test, test
+        # Tests, test, test, test
         deploy_stage.add_post(
             pipelines.ShellStep(
                 "TestViewerEndpoint",

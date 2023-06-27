@@ -41,7 +41,6 @@ class CodePipelineStack(Stack):
         topic.add_subscription(
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
-        topic.publish_message("test message!")
 
         # Notification rule
         notifier = aws_codestarnotifications.NotificationRule(

@@ -2,6 +2,7 @@ from constructs import Construct
 from aws_cdk import (
     Stack,
     pipelines,
+    aws_events,
     aws_events_targets,
     aws_sns,
     aws_sns_subscriptions,
@@ -57,9 +58,16 @@ class CodePipelineStack(Stack):
                     }
                 },
             },
-            rule_name="NotifyOnDeployFromCommit"
+            rule_name="NotifyOnDeployFromCommit",
         )
-        pipeline_notification_rule.add_target(aws_events_targets.SnsTopic(topic))
+        pipeline_notification_rule.add_target(
+            aws_events_targets.SnsTopic(
+                topic,
+                message=aws_events.RuleTargetInput.from_object(
+                    {"ExecutionResult": aws_events.EventField.from_path("$.detail.execution-result")}
+                ),
+            )
+        )
 
         notifier = aws_codestarnotifications.NotificationRule(
             self,

@@ -2,6 +2,7 @@ from constructs import Construct
 from aws_cdk import (
     Stack,
     pipelines,
+    aws_chatbot,
     aws_events,
     aws_events_targets,
     aws_sns,
@@ -43,6 +44,14 @@ class CodePipelineStack(Stack):
         topic.add_subscription(
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
+        chatbot = aws_chatbot.SlackChannelConfiguration(
+            self,
+            "DataHubInfraPipeline",
+            slack_channel_configuration_name="DhInfraPipelineStackNotifier",
+            slack_channel_id="C05BTLSLYGJ",
+            slack_workspace_id="T4S8MSGSX",
+            notification_topics=[topic],
+        )
 
         # Notification rule
         pipeline_notification_rule = pipeline.pipeline.on_event(
@@ -64,7 +73,11 @@ class CodePipelineStack(Stack):
             aws_events_targets.SnsTopic(
                 topic,
                 message=aws_events.RuleTargetInput.from_object(
-                    {"ExecutionResult": aws_events.EventField.from_path("$.detail.execution-result")}
+                    {
+                        "ExecutionResult": aws_events.EventField.from_path(
+                            "$.detail.execution-result"
+                        )
+                    }
                 ),
             )
         )

@@ -2,6 +2,7 @@ from constructs import Construct
 from aws_cdk import (
     Stack,
     pipelines,
+    aws_events_targets,
     aws_sns,
     aws_sns_subscriptions,
     aws_codestarnotifications,
@@ -43,6 +44,23 @@ class CodePipelineStack(Stack):
         )
 
         # Notification rule
+        pipeline_notification_rule = pipeline.pipeline.on_event(
+            id="PipelineNotification",
+            description="Notify on deploys from code commits",
+            event_pattern={
+                "detail_type": ["CodePipeline Action Execution State Change"],
+                "detail": {
+                    "execution-result": {
+                        "external-execution-summary": [
+                            {"prefix": '{"ProviderType":"GitHub","CommitMessage'}
+                        ]
+                    }
+                },
+            },
+            rule_name="NotifyOnDeployFromCommit"
+        )
+        pipeline_notification_rule.add_target(aws_events_targets.SnsTopic(topic))
+
         notifier = aws_codestarnotifications.NotificationRule(
             self,
             "PipelineNotification",
@@ -67,7 +85,7 @@ class CodePipelineStack(Stack):
                 "codepipeline-pipeline-stage-execution-succeeded",
             ],
             source=pipeline.pipeline,
-            enabled=False
+            enabled=False,
         )
         notifier.add_target(topic)
 

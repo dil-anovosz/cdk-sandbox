@@ -75,13 +75,13 @@ class CodePipelineStack(Stack):
         pipeline_notification_rule.add_target(
             aws_events_targets.SnsTopic(
                 topic,
-                message=aws_events.RuleTargetInput.from_object(
-                    {
-                        "ExecutionResult": aws_events.EventField.from_path(
-                            "$.detail.execution-result"
-                        )
-                    }
-                ),
+                # message=aws_events.RuleTargetInput.from_object(
+                #     {
+                #         "ExecutionResult": aws_events.EventField.from_path(
+                #             "$.detail.execution-result"
+                #         )
+                #     }
+                # ),
             )
         )
 

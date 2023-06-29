@@ -111,7 +111,7 @@ class CodePipelineStack(Stack):
             source=pipeline.pipeline,
             enabled=False,
         )
-        notifier.add_target(chatbot)
+        notifier.add_target(topic)
 
         deploy_stage.add_post(
             pipelines.ShellStep(

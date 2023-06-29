@@ -45,6 +45,7 @@ class CodePipelineStack(Stack):
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
         topic.add_subscription(aws_sns_subscriptions.EmailSubscription("pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"))
+        
         chatbot = aws_chatbot.SlackChannelConfiguration(
             self,
             "DataHubInfraPipeline",
@@ -52,7 +53,7 @@ class CodePipelineStack(Stack):
             slack_channel_id="C05EP6J1HS6", # "C05BTLSLYGJ" original
             slack_workspace_id="T4S8MSGSX",
         )
-        chatbot.add_notification_topic(topic)
+        # chatbot.add_notification_topic(topic)
 
         # Tests, test, test, test, test, test, test, test
         # Notification rule
@@ -110,7 +111,7 @@ class CodePipelineStack(Stack):
             source=pipeline.pipeline,
             enabled=False,
         )
-        notifier.add_target(topic)
+        notifier.add_target(chatbot)
 
         deploy_stage.add_post(
             pipelines.ShellStep(

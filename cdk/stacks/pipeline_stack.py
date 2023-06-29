@@ -44,6 +44,7 @@ class CodePipelineStack(Stack):
         topic.add_subscription(
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
+        topic.add_subscription(aws_sns_subscriptions.EmailSubscription("pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"))
         chatbot = aws_chatbot.SlackChannelConfiguration(
             self,
             "DataHubInfraPipeline",
@@ -53,7 +54,7 @@ class CodePipelineStack(Stack):
         )
         chatbot.add_notification_topic(topic)
 
-        # Tests, test, test, test, test, test, test
+        # Tests, test, test, test, test, test, testls
         # Notification rule
         pipeline_notification_rule = pipeline.pipeline.on_event(
             id="PipelineNotification",
@@ -73,13 +74,13 @@ class CodePipelineStack(Stack):
         pipeline_notification_rule.add_target(
             aws_events_targets.SnsTopic(
                 topic,
-                # message=aws_events.RuleTargetInput.from_object(
-                #     {
-                #         "ExecutionResult": aws_events.EventField.from_path(
-                #             "$.detail.execution-result"
-                #         )
-                #     }
-                # ),
+                message=aws_events.RuleTargetInput.from_object(
+                    {
+                        "ExecutionResult": aws_events.EventField.from_path(
+                            "$.detail.execution-result"
+                        )
+                    }
+                ),
             )
         )
 

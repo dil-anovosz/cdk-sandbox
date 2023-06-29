@@ -53,7 +53,7 @@ class CodePipelineStack(Stack):
             slack_channel_id="C05EP6J1HS6", # "C05BTLSLYGJ" original
             slack_workspace_id="T4S8MSGSX",
         )
-        # chatbot.add_notification_topic(topic)
+        chatbot.add_notification_topic(topic)
 
         # Tests, test, test, test, test, test, test, test
         # Notification rule

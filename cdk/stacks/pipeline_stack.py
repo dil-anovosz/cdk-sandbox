@@ -48,7 +48,7 @@ class CodePipelineStack(Stack):
             self,
             "DataHubInfraPipeline",
             slack_channel_configuration_name="DhInfraPipelineStackNotifier",
-            slack_channel_id="C05BTLSLYGJ",
+            slack_channel_id="C05EP6J1HS6", # "C05BTLSLYGJ" original
             slack_workspace_id="T4S8MSGSX",
             notification_topics=[topic],
         )

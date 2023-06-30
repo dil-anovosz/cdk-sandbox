@@ -14,7 +14,7 @@ def handler(event, context):
     get_secret_value_response = client.get_secret_value(
         SecretID="TestSlackWebhookToken"
     )
-    webhook_token = get_secret_value_response['SecretString']
+    webhook_token = get_secret_value_response["SecretString"]
 
     msg = {
         "channel": "#pipeline-notification-test",

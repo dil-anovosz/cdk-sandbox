@@ -1,14 +1,8 @@
+from aws_cdk import (Stack, aws_codestarnotifications, aws_events,
+                     aws_events_targets, aws_sns, aws_sns_subscriptions,
+                     pipelines)
 from constructs import Construct
-from aws_cdk import (
-    Stack,
-    pipelines,
-    aws_chatbot,
-    aws_events,
-    aws_events_targets,
-    aws_sns,
-    aws_sns_subscriptions,
-    aws_codestarnotifications,
-)
+
 from cdk.stages.pipeline_stage import CodePipelineStage
 
 
@@ -45,15 +39,6 @@ class CodePipelineStack(Stack):
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
         topic.add_subscription(aws_sns_subscriptions.EmailSubscription("pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"))
-        
-        chatbot = aws_chatbot.SlackChannelConfiguration(
-            self,
-            "DataHubInfraPipeline",
-            slack_channel_configuration_name="DhInfraPipelineStackNotifier",
-            slack_channel_id="C05EP6J1HS6", # "C05BTLSLYGJ" original
-            slack_workspace_id="T4S8MSGSX",
-        )
-        chatbot.add_notification_topic(topic)
 
         # Tests, test, test, test, test, test, test, test, test, test, test, test
         # Notification rule

@@ -1,5 +1,6 @@
-from constructs import Construct
 from aws_cdk import Stage
+from constructs import Construct
+
 from cdk.stacks.helloworld_stack import HelloWorldStack
 
 

@@ -1,7 +1,8 @@
-from aws_cdk import Stack, aws_lambda as _lambda, assertions
+import pytest
+from aws_cdk import Stack, assertions
+from aws_cdk import aws_lambda as _lambda
 
 from cdk.hitcounter import HitCounter
-import pytest
 
 
 def test_dynamodb_table_created():

@@ -19,7 +19,7 @@ class CodePipelineStack(Stack):
                 input=pipelines.CodePipelineSource.connection(
                     "dil-anovosz/cdk-sandbox",
                     "main",
-                    connection_arn="arn:aws:codestar-connections:us-west-2:681724587179:connection/893acab1-9f1b-4b7f-8146-fa8443fce0fc",
+                    connection_arn="arn:aws:codestar-connections:us-west-2:681724587179:connection/c7af9b71-d900-400b-a9f7-68cceb6c4f72",
                 ),
                 commands=[
                     "npm install -g aws-cdk",

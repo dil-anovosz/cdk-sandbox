@@ -1,5 +1,7 @@
+from aws_cdk import RemovalPolicy
+from aws_cdk import aws_dynamodb as ddb
+from aws_cdk import aws_lambda as _lambda
 from constructs import Construct
-from aws_cdk import aws_lambda as _lambda, aws_dynamodb as ddb, RemovalPolicy
 
 
 class HitCounter(Construct):

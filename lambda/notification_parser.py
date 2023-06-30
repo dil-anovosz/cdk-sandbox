@@ -6,7 +6,7 @@ http = PoolManager()
 
 def handler(event, context):
     print(f"request: {json.dumps(event)}")
-    url = "https://hooks.slack.com/services/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"
+    url = "https://hooks.slack.com/services/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"
     msg = {
         "channel": "#pipeline-notification-test",
         "username": "Pipeline Deploy Watcher Bot",

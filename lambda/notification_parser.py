@@ -1,12 +1,21 @@
 import json
 from urllib3 import PoolManager
 
+import boto3
+
 http = PoolManager()
+session = boto3.session.Session()
+client = session.client(service_name="secretsmanager", region_name="us-west-2")
 
 
 def handler(event, context):
     print(f"request: {json.dumps(event)}")
-    url = "https://hooks.slack.com/services/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"
+
+    get_secret_value_response = client.get_secret_value(
+        SecretID="TestSlackWebhookToken"
+    )
+    webhook_token = get_secret_value_response['SecretString']
+
     msg = {
         "channel": "#pipeline-notification-test",
         "username": "Pipeline Deploy Watcher Bot",
@@ -15,7 +24,7 @@ def handler(event, context):
     }
 
     encoded_msg = json.dumps(msg).encode("utf-8")
-    resp = http.request("POST", url, body=encoded_msg)
+    resp = http.request("POST", webhook_token, body=encoded_msg)
     print(
         "After encoding:\n",
         {

@@ -1,10 +1,11 @@
-from aws_cdk import (Stack, aws_codestarnotifications, aws_events,
+from aws_cdk import (Stack, aws_codestarnotifications,
                      aws_events_targets, aws_sns, aws_sns_subscriptions,
                      pipelines)
+from aws_cdk.aws_lambda_event_sources import SnsEventSource
 from constructs import Construct
 
+from cdk.assets.lambdas.pipeline_notification_construct import NotificationParser
 from cdk.stages.pipeline_stage import CodePipelineStage
-
 
 class CodePipelineStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
@@ -33,12 +34,17 @@ class CodePipelineStack(Stack):
 
         pipeline.build_pipeline()
 
-        # SNS notification
+        # SNS topic
         topic = aws_sns.Topic(self, "Topic", display_name="Test subscription topic")
         topic.add_subscription(
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
         topic.add_subscription(aws_sns_subscriptions.EmailSubscription("pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"))
+        
+        # Lambda function
+        notification_parser = NotificationParser(self, "PipelineNotificationParser")
+        notification_parser.handler.add_event_source(SnsEventSource(topic))
+
 
         # Tests, test, test, test, test, test, test, test, test, test, test, test
         # Notification rule

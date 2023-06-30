@@ -5,14 +5,14 @@ import boto3
 
 http = PoolManager()
 session = boto3.session.Session()
-client = session.client(service_name="secretsmanager", region_name="us-west-2")
+secretsmanager = session.client(service_name="secretsmanager", region_name="us-west-2")
 
 
 def handler(event, context):
     print(f"request: {json.dumps(event)}")
 
-    get_secret_value_response = client.get_secret_value(
-        SecretID="TestSlackWebhookToken"
+    get_secret_value_response = secretsmanager.get_secret_value(
+        SecretID="arn:aws:secretsmanager:us-west-2:681724587179:secret:TestSlackWebhookToken-BRXYiK"
     )
     webhook_token = get_secret_value_response["SecretString"]
 

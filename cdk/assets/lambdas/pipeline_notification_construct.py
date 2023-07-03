@@ -26,7 +26,7 @@ class NotificationParser(Construct):
                     "secretsmanager:GetSecretValue",
                 ],
                 resources=[
-                    "arn:aws:secretsmanager:us-west-2:681724587179:secret:TestSlackWebhookToken-BRXYiK:*",
+                    "arn:aws:secretsmanager:us-west-2:681724587179:secret:TestSlackWebhookToken-BRXYiK",
                 ],
             )
         )

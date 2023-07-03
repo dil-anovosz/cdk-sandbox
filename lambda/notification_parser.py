@@ -14,7 +14,8 @@ def handler(event, context):
     get_secret_value_response = secretsmanager.get_secret_value(
         SecretId="arn:aws:secretsmanager:us-west-2:681724587179:secret:TestSlackWebhookToken-BRXYiK"
     )
-    webhook_token = get_secret_value_response["SecretString"]
+    
+    webhook_token = json.loads(get_secret_value_response["SecretString"])["token"]
 
     msg = {
         "channel": "#pipeline-notification-test",

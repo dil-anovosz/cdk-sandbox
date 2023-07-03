@@ -109,7 +109,7 @@ class CodePipelineStack(Stack):
                 # "codepipeline-pipeline-stage-execution-succeeded",
             ],
             source=pipeline.pipeline,
-            enabled=True,
+            enabled=False,
         )
         notifier.add_target(topic)
 

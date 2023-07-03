@@ -23,7 +23,6 @@ def handler(event, context):
     pr_info, commit_message = commit_text.split("\n\n")
 
     msg = {
-        "text": "simple text",
         "blocks": [
             {
                 "type": "section",

@@ -55,7 +55,7 @@ class CodePipelineStack(Stack):
         notification_parser = NotificationParser(self, "PipelineNotificationParser")
         notification_parser.handler.add_event_source(SnsEventSource(topic))
 
-        # Tests, test, test, test, test, test, test, test, test, test, test, test, test, test, test
+        # Tests, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test
         # Notification rule
         pipeline_notification_rule = pipeline.pipeline.on_event(
             id="PipelineNotification",

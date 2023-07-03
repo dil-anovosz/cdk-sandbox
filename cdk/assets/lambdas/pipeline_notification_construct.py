@@ -1,5 +1,4 @@
-from aws_cdk import aws_lambda
-from aws_cdk import aws_iam
+from aws_cdk import aws_iam, aws_lambda
 from constructs import Construct
 
 

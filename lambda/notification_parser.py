@@ -1,7 +1,7 @@
 import json
-from urllib3 import PoolManager
 
 import boto3
+from urllib3 import PoolManager
 
 http = PoolManager()
 session = boto3.session.Session()
@@ -23,7 +23,6 @@ def handler(event, context):
     )["CommitMessage"]
     pr_info, commit_message = commit_text.split("\n\n")
 
-    # msg = {"text": sns_message}
     msg = {
         "blocks": [
             {

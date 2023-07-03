@@ -40,7 +40,6 @@ class CodePipelineStack(Stack):
 
         pipeline.build_pipeline()
 
-        # SNS topic
         topic = aws_sns.Topic(self, "Topic", display_name="Test subscription topic")
         topic.add_subscription(
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
@@ -51,12 +50,9 @@ class CodePipelineStack(Stack):
             )
         )
 
-        # Lambda function
         notification_parser = NotificationParser(self, "PipelineNotificationParser")
         notification_parser.handler.add_event_source(SnsEventSource(topic))
 
-        # Tests, test, test, test, test, test, test, test, test, test, test, test, test, test, test, test
-        # Notification rule
         pipeline_notification_rule = pipeline.pipeline.on_event(
             id="PipelineNotification",
             description="Notify on deploys from code commits",
@@ -75,43 +71,8 @@ class CodePipelineStack(Stack):
         pipeline_notification_rule.add_target(
             aws_events_targets.SnsTopic(
                 topic,
-                # message=aws_events.RuleTargetInput.from_object(
-                #     {
-                #         "ExecutionResult": aws_events.EventField.from_path(
-                #             "$.detail.execution-result"
-                #         )
-                #     }
-                # ),
             )
         )
-
-        notifier = aws_codestarnotifications.NotificationRule(
-            self,
-            "PipelineNotification",
-            events=[
-                "codepipeline-pipeline-action-execution-canceled",
-                "codepipeline-pipeline-action-execution-failed",
-                "codepipeline-pipeline-action-execution-started",
-                "codepipeline-pipeline-action-execution-succeeded",
-                # "codepipeline-pipeline-manual-approval-failed",
-                # "codepipeline-pipeline-manual-approval-needed",
-                # "codepipeline-pipeline-manual-approval-succeeded",
-                # "codepipeline-pipeline-pipeline-execution-canceled",
-                # "codepipeline-pipeline-pipeline-execution-failed",
-                # "codepipeline-pipeline-pipeline-execution-resumed",
-                # "codepipeline-pipeline-pipeline-execution-started",
-                # "codepipeline-pipeline-pipeline-execution-succeeded",
-                # "codepipeline-pipeline-pipeline-execution-superseded",
-                # "codepipeline-pipeline-stage-execution-canceled",
-                # "codepipeline-pipeline-stage-execution-failed",
-                # "codepipeline-pipeline-stage-execution-resumed",
-                # "codepipeline-pipeline-stage-execution-started",
-                # "codepipeline-pipeline-stage-execution-succeeded",
-            ],
-            source=pipeline.pipeline,
-            enabled=False,
-        )
-        notifier.add_target(topic)
 
         deploy_stage.add_post(
             pipelines.ShellStep(

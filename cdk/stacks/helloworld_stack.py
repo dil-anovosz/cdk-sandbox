@@ -1,8 +1,8 @@
 from aws_cdk import CfnOutput, Stack
 from aws_cdk import aws_apigateway as apigw
-from aws_cdk import \
-    aws_lambda as \
-    _lambda  # Duration,; aws_iam as iam,; aws_sqs as sqs,; aws_sns as sns,; aws_sns_subscriptions as subs,; '_' naming to avoid collision with builtin `lambda` name
+from aws_cdk import (
+    aws_lambda as _lambda,
+)  # Duration,; aws_iam as iam,; aws_sqs as sqs,; aws_sns as sns,; aws_sns_subscriptions as subs,; '_' naming to avoid collision with builtin `lambda` name
 from cdk_dynamo_table_view import TableViewer
 from constructs import Construct
 

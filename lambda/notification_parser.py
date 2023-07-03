@@ -16,15 +16,15 @@ def handler(event, context):
     )
     webhook_token = json.loads(get_secret_value_response["SecretString"])["token"]
 
-    sns_message = event["Records"][0]["Sns"]["Message"]
+    sns_message = json.loads(event["Records"][0]["Sns"]["Message"])
     eventbridge = sns_message["detail"]
     commit_text = json.loads(
         eventbridge["execution-result"]["external-execution-summary"]
     )["CommitMessage"]
     pr_info, commit_message = commit_text.split("\n\n")
 
-    msg = sns_message
-    parsed_msg = {
+    # msg = {"text": sns_message}
+    msg = {
         "blocks": [
             {
                 "type": "section",

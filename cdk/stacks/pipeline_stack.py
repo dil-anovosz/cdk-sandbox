@@ -1,11 +1,17 @@
-from aws_cdk import (Stack, aws_codestarnotifications,
-                     aws_events_targets, aws_sns, aws_sns_subscriptions,
-                     pipelines)
+from aws_cdk import (
+    Stack,
+    aws_codestarnotifications,
+    aws_events_targets,
+    aws_sns,
+    aws_sns_subscriptions,
+    pipelines,
+)
 from aws_cdk.aws_lambda_event_sources import SnsEventSource
 from constructs import Construct
 
 from cdk.assets.lambdas.pipeline_notification_construct import NotificationParser
 from cdk.stages.pipeline_stage import CodePipelineStage
+
 
 class CodePipelineStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
@@ -39,12 +45,15 @@ class CodePipelineStack(Stack):
         topic.add_subscription(
             aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
         )
-        topic.add_subscription(aws_sns_subscriptions.EmailSubscription("pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"))
-        
+        topic.add_subscription(
+            aws_sns_subscriptions.EmailSubscription(
+                "pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"
+            )
+        )
+
         # Lambda function
         notification_parser = NotificationParser(self, "PipelineNotificationParser")
         notification_parser.handler.add_event_source(SnsEventSource(topic))
-
 
         # Tests, test, test, test, test, test, test, test, test, test, test, test, test, test
         # Notification rule
@@ -84,23 +93,23 @@ class CodePipelineStack(Stack):
                 "codepipeline-pipeline-action-execution-failed",
                 "codepipeline-pipeline-action-execution-started",
                 "codepipeline-pipeline-action-execution-succeeded",
-                "codepipeline-pipeline-manual-approval-failed",
-                "codepipeline-pipeline-manual-approval-needed",
-                "codepipeline-pipeline-manual-approval-succeeded",
-                "codepipeline-pipeline-pipeline-execution-canceled",
-                "codepipeline-pipeline-pipeline-execution-failed",
-                "codepipeline-pipeline-pipeline-execution-resumed",
-                "codepipeline-pipeline-pipeline-execution-started",
-                "codepipeline-pipeline-pipeline-execution-succeeded",
-                "codepipeline-pipeline-pipeline-execution-superseded",
-                "codepipeline-pipeline-stage-execution-canceled",
-                "codepipeline-pipeline-stage-execution-failed",
-                "codepipeline-pipeline-stage-execution-resumed",
-                "codepipeline-pipeline-stage-execution-started",
-                "codepipeline-pipeline-stage-execution-succeeded",
+                # "codepipeline-pipeline-manual-approval-failed",
+                # "codepipeline-pipeline-manual-approval-needed",
+                # "codepipeline-pipeline-manual-approval-succeeded",
+                # "codepipeline-pipeline-pipeline-execution-canceled",
+                # "codepipeline-pipeline-pipeline-execution-failed",
+                # "codepipeline-pipeline-pipeline-execution-resumed",
+                # "codepipeline-pipeline-pipeline-execution-started",
+                # "codepipeline-pipeline-pipeline-execution-succeeded",
+                # "codepipeline-pipeline-pipeline-execution-superseded",
+                # "codepipeline-pipeline-stage-execution-canceled",
+                # "codepipeline-pipeline-stage-execution-failed",
+                # "codepipeline-pipeline-stage-execution-resumed",
+                # "codepipeline-pipeline-stage-execution-started",
+                # "codepipeline-pipeline-stage-execution-succeeded",
             ],
             source=pipeline.pipeline,
-            enabled=False,
+            enabled=True,
         )
         notifier.add_target(topic)
 

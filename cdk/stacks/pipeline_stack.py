@@ -40,19 +40,6 @@ class CodePipelineStack(Stack):
 
         pipeline.build_pipeline()
 
-        topic = aws_sns.Topic(self, "Topic", display_name="Test subscription topic")
-        topic.add_subscription(
-            aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
-        )
-        topic.add_subscription(
-            aws_sns_subscriptions.EmailSubscription(
-                "pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"
-            )
-        )
-
-        notification_parser = NotificationParser(self, "PipelineNotificationParser")
-        notification_parser.handler.add_event_source(SnsEventSource(topic))
-
         pipeline_notification_rule = pipeline.pipeline.on_event(
             id="PipelineNotification",
             description="Notify on deploys from code commits",
@@ -68,11 +55,24 @@ class CodePipelineStack(Stack):
             },
             rule_name="NotifyOnDeployFromCommit",
         )
+
+        topic = aws_sns.Topic(self, "Topic", display_name="Test subscription topic")
         pipeline_notification_rule.add_target(
             aws_events_targets.SnsTopic(
                 topic,
             )
         )
+
+        topic.add_subscription(
+            aws_sns_subscriptions.EmailSubscription("anovoszath@diligent.com")
+        )
+        topic.add_subscription(
+            aws_sns_subscriptions.EmailSubscription(
+                "pipeline-test-notific-aaaakaddfvgdfiomr5sejtgaka@diligent.slack.com"
+            )
+        )
+        notification_parser = NotificationParser(self, "PipelineNotificationParser")        
+        notification_parser.handler.add_event_source(SnsEventSource(topic))
 
         deploy_stage.add_post(
             pipelines.ShellStep(

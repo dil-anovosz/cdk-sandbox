@@ -50,7 +50,7 @@ def handler(event, context):
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f"*Message*: {commit_message}",
+                    "text": f"*Message:*\n{commit_message}",
                 },
             },
             {"type": "divider"},
